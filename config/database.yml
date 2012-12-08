@@ -8,9 +8,9 @@ development:
 test:
   adapter: postgresql
   database: sample_app_test
-  username: <username>
-  password: <password>
-  host: <hostname or ip address. eg.: localhost>
+  username: gusaaaaa 
+  password: karaoke
+  host: localhost
 
 production:
   adapter: postgresql

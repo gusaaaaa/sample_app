@@ -19,3 +19,6 @@
 *.swp
 *.swo
 
+# Ignore commands.txt file
+/commands.txt
+

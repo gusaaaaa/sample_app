@@ -5,7 +5,7 @@ development:
   password: karaoke
   host: localhost
 
-test:
+test: &test
   adapter: postgresql
   database: sample_app_test
   username: gusaaaaa 
@@ -20,3 +20,6 @@ production:
   host: ec2-54-243-230-119.compute-1.amazonaws.com:5432
 
 # "dbname=d2ak9pod49s2nh host=ec2-54-243-230-119.compute-1.amazonaws.com port=5432 user=gkrsauxoldsyoj password=M3YXXdMkh9Ke67B_Ia8zfjwVZt sslmode=require"
+
+cucumber:
+  <<: *test

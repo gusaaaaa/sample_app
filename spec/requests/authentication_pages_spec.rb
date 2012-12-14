@@ -6,9 +6,7 @@ describe "Authentication" do
 
 	describe "signin page" do
 		before { visit signin_path }
-
-		it { should have_selector('h1',text: 'Sign in') }
-		it { should have_selector('title', text: 'Sign in') }
+		it { should have_titles('Sign in', 'Sign in') }
 	end
 
 	describe "signin" do
@@ -18,17 +16,13 @@ describe "Authentication" do
 
 		describe "with invalid information" do
 			before { click_button submit }
-			it { should have_selector('title', text: 'Sign in') }
-			it { should have_selector('div.alert.alert-error', text: 'Invalid') }
+			it { should have_titles('Sign in', 'Sign in') }
+			it { should have_error_message('Invalid') }
 		end
 
 		describe "with valid information" do
 			let(:user) { FactoryGirl.create(:user) }
- 		 	before do
-				fill_in "Email", with: user.email
-				fill_in "Password", with: user.password
-				click_button submit
-			end	
+ 		 	before { valid_signin(user) }	
 			it { should have_selector('title', text: user.name) }
 			it { should have_link('Profile', href: user_path(user)) }
 			it { should have_link('Sign out', href: signout_path) }
@@ -44,15 +38,15 @@ describe "Authentication" do
 			before do
 				fill_in "Email", with: "nobody@example.com"
 				fill_in "Password", with: "nobodyknows"
-				click_button submit
+				click_button 'Sign in'
 			end
 			
-			it { should have_selector('div.alert.alert-error') }
+			it { should have_error_message }
 		end
 
 		describe "after visiting another page" do
 			before { click_link "Home" }
-			it { should_not have_selector('div.alert.alert-error') }
+			it { should_not have_error_message }
 		end
 	end
 

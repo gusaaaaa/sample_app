@@ -6,17 +6,13 @@ describe "User pages" do
 
 	describe "signup page" do
 		before { visit signup_path }
-		
-		it { should have_selector('h1', text: 'Sign up') }
-		it { should have_selector('title', text: 'Sign up') }
+		it { should have_titles('Sign up', 'Sign up') }		
 	end
 
 	describe "profile page" do
-		let(:user) { FactoryGirl.create(:user) }
-		before { visit user_path(user) }
-
-		it { should have_selector('h1', text: user.name) }
-		it { should have_selector('title', text: user.name) }
+		let(:valid_user) { FactoryGirl.create(:user) }
+		before { visit user_path(valid_user) }
+		it { should have_titles(valid_user.name, valid_user.name) }		
 	end
 
 	describe "signup" do
@@ -31,6 +27,7 @@ describe "User pages" do
 		end
 
 		describe "with valid information" do
+			
 			before do
 				fill_in "Name", with: "Example User"
 				fill_in "Email", with: "user@example.com"
@@ -44,9 +41,9 @@ describe "User pages" do
 
 			describe "after saving the user" do
 				before { click_button submit }
-				let(:user) { User.find_by_email('user@example.com') }
+				let(:user) { User.find_by_email("user@example.com") }
 				it { should have_selector('title', text: user.name) }
-				it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+				it { should have_success_message('Welcome') }
 				it { should have_link('Sign out') }
 			end
 		end

@@ -18,6 +18,8 @@ describe "Authentication" do
 			before { click_button submit }
 			it { should have_titles('Sign in', 'Sign in') }
 			it { should have_error_message('Invalid') }
+			it { should_not have_link('Profile') }
+			it { should_not have_link('Settings') }
 		end
 
 		describe "with valid information" do

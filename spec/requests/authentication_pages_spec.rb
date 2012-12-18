@@ -126,12 +126,24 @@ describe "Authentication" do
 		end
 	
 		describe "as non-admin user" do
-			let(:user) { FactoryGirl.create(:user) }
-			let(:non_admin) { FactoryGirl.create(:user) }
+			let(:user) { FactoryGirl.create(:user, email: "monchega@pocoyo.com") }
+			let(:non_admin) { FactoryGirl.create(:user, email: "macaya@pocoyo.com") }
 			before { sign_in non_admin }
 			describe "submitting a DELETE request to the Users#destroy action" do
 				before { delete user_path(user) }
 				specify { response.should redirect_to(root_path) }
+			end
+		end
+
+		describe "as admin user" do
+			let(:admin) { FactoryGirl.create(:admin) }
+			before { sign_in admin }
+
+			describe "attempting to access destroy method" do
+				before { delete user_path(admin) }
+				it "should return a 500 error" do
+					response.response_code.should == 500
+				end
 			end
 		end
 

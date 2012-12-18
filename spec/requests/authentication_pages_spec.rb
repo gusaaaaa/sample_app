@@ -58,7 +58,23 @@ describe "Authentication" do
 	end
 
 	describe "authorization" do
-		
+
+		describe "for signed-in users" do
+			let(:user) { FactoryGirl.create(:user) }
+
+			before { sign_in user }
+
+			describe "when attempting to access new action" do
+				before { get new_user_path(user) }
+				specify { response.should redirect_to(root_path) }
+			end
+
+			describe "when attempting to access create action" do
+				before { post users_path }
+				specify { response.should redirect_to(root_path) }
+			end
+		end
+
 		describe "for non-signed-in users" do
 			let(:user) { FactoryGirl.create(:user) }
 

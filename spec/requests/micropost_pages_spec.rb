@@ -6,7 +6,7 @@ describe "Micropost pages" do
 	let(:user) { FactoryGirl.create(:user) }
 	before { sign_in user }
 
-	describe "sidebar micropost counts" do
+	describe "sidebar micropost" do
 
 		describe "with one micropost" do
 			before do
@@ -36,6 +36,7 @@ describe "Micropost pages" do
 				end
 			end
 		end
+
 	end
 
 	describe "micropost creation" do

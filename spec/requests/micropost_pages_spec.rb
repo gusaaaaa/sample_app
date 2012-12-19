@@ -6,6 +6,31 @@ describe "Micropost pages" do
 	let(:user) { FactoryGirl.create(:user) }
 	before { sign_in user }
 
+	describe "sidebar micropost counts" do
+		before { visit root_path }
+
+		describe "with one micropost" do
+			before do
+				fill_in 'micropost_content', with: "Lorem ipsum"
+				click_button 'Post'
+			end
+			it "should display '1 micropost'" do
+				should have_content("1 micropost")
+			end
+		end
+		describe "two microposts" do
+			before do
+				fill_in 'micropost_content', with: "Lorem ipsum"
+				click_button 'Post'
+				fill_in 'micropost_content', with: "Lorem ipsum"
+				click_button 'Post'
+			end
+			it "should display 2 'microposts'" do
+				should have_content("2 microposts")
+			end
+		end
+	end
+
 	describe "micropost creation" do
 		before { visit root_path }
 

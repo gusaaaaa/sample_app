@@ -7,26 +7,33 @@ describe "Micropost pages" do
 	before { sign_in user }
 
 	describe "sidebar micropost counts" do
-		before { visit root_path }
 
 		describe "with one micropost" do
 			before do
-				fill_in 'micropost_content', with: "Lorem ipsum"
-				click_button 'Post'
+ 			 	FactoryGirl.create(:micropost, user: user) 
+				visit root_path
 			end
+			
 			it "should display '1 micropost'" do
 				should have_content("1 micropost")
 			end
 		end
-		describe "two microposts" do
-			before do
-				fill_in 'micropost_content', with: "Lorem ipsum"
-				click_button 'Post'
-				fill_in 'micropost_content', with: "Lorem ipsum"
-				click_button 'Post'
+
+		describe "many microposts" do
+			before(:all) { 50.times { FactoryGirl.create(:micropost, user: user) } }
+			after(:all) { User.delete_all }
+
+			before { visit root_path }
+
+			it "should display 50 'microposts'" do
+				should have_content("50 microposts")
 			end
-			it "should display 2 'microposts'" do
-				should have_content("2 microposts")
+
+			it "should paginate" do
+				should have_selector('div.pagination')
+				user.microposts.paginate(page: 1).each do |micropost|
+					should have_selector("li##{micropost.id}")
+				end
 			end
 		end
 	end
